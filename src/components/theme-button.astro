@@ -1,0 +1,188 @@
+<style>
+  #theme-wrapper {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 24px;
+    background-color: var(--color-secondary);
+    border-radius: 50%;
+    opacity: 0.8;
+  }
+
+  #theme-container {
+    width: 72px;
+    height: 72px;
+    box-sizing: border-box;
+    padding: 12px;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    z-index: 1000;
+  }
+
+  .sun {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.6) rotate(0deg);
+    transition: transform 0.3s ease-in, opacity 0.2s ease-in 0.1s;
+    /* Use your color variables here */
+    background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, var(--color-offset) 50%);
+  }
+
+  .sun:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* Use your color variables here */
+    background: radial-gradient(circle, var(--color-offset) 30%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 50%, var(--color-offset) 50%);
+    transform: rotate(45deg);
+  }
+
+  .sun.visible {
+    pointer-events: auto;
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+    transition: transform 0.3s ease-in, opacity 0.2s ease-in 0.1s;
+  }
+
+  .moon {
+    width: 50%;
+    height: 50%;
+    pointer-events: none;
+    position: absolute;
+    left: 12.5%;
+    top: 18.75%;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    box-shadow: 9px 3px 0px 0px var(--color-offset);
+    opacity: 0;
+    transform: scale(0.3) rotate(65deg);
+    transition: transform 0.3s ease-in, opacity 0.2s ease-in 0.1s;
+  }
+
+  .moon.visible {
+    pointer-events: auto;
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    transition: transform 0.3s ease-in, opacity 0.2s ease-in 0.1s;
+  }
+
+  .star {
+    position: absolute;
+    top: 25%;
+    left: 5%;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-right: 7px solid rgba(0, 0, 0, 0);
+    border-bottom: 5px solid var(--color-offset);
+    border-left: 7px solid rgba(0, 0, 0, 0);
+    transform: scale(0.55) rotate(35deg);  
+    opacity: 0;
+    transition: all 0.2s ease-in 0.4s;
+  }
+
+  .star:before {
+    border-bottom: 5px solid var(--color-offset);
+    border-left: 3px solid rgba(0, 0, 0, 0);
+    border-right: 3px solid rgba(0, 0, 0, 0);
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -3px;
+    left: -5px;
+    display: block;
+    content: '';
+    transform: rotate(-35deg);
+  }
+
+  .star:after {
+    position: absolute;
+    display: block;
+    color: red;
+    top: 0px;
+    left: -7px;
+    width: 0px;
+    height: 0px;
+    border-right: 7px solid rgba(0, 0, 0, 0);
+    border-bottom: 5px solid var(--color-offset);
+    border-left: 7px solid rgba(0, 0, 0, 0);
+    transform: rotate(-70deg);
+    content: '';
+  }
+
+  .moon.visible .star {
+    opacity: .8;
+  }
+
+  .star.small {
+    transform: scale(0.35) rotate(35deg);
+    position: relative;
+    top: 50%;
+    left: 37.5%;
+    opacity: 0;
+    transition: all 0.2s ease-in 0.45s;
+  }
+
+  .moon.visible .star.small {
+    opacity: .7;
+    transform: scale(0.45) rotate(35deg);
+  }
+</style>
+
+<div id="theme-wrapper">
+  <!-- 
+  Adapted from https://janessagarrow.com/blog/css-dark-mode-toggle/
+  Go check out her blog post for a detailed explanation of how this works!
+  She's the smart one-- not me. 😅
+ -->
+  <button id="theme-container" aria-hidden="true" title="Toggle dark mode" aria-label="Toggle dark mode">
+    <div class="sun"></div>
+    <div class="moon">
+      <div class="star"></div>
+      <div class="star small"></div>
+    </div>
+  </button>
+</div>
+
+<script>
+  const sun = document.querySelector('.sun')
+  const moon = document.querySelector('.moon')
+  const button = document.querySelector('#theme-wrapper')
+  const html = document.querySelector("html")
+
+  if (!button || !html) {
+    throw new Error("Missing dark mode toggle or html element")
+  }
+
+  if (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    html.classList.add("dark")
+    moon?.classList.add("visible")
+    sun?.classList.remove("visible")
+  } else {
+    html.classList.remove("dark")
+    moon?.classList.remove("visible")
+    sun?.classList.add("visible")
+  }
+
+  button.addEventListener("click", () => {
+    html.classList.toggle("dark")
+    sun?.classList.toggle("visible")
+    moon?.classList.toggle("visible")
+
+    localStorage.theme = html.classList.contains("dark") ? "dark" : "light"
+  })
+</script>

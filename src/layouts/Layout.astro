@@ -1,35 +1,208 @@
 ---
+import ThemeButton from "../components/theme-button.astro"
+
 export interface Props {
-	title: string;
+  title: string
 }
 
-const { title } = Astro.props;
+const { title } = Astro.props
 ---
+
+<!-- STYLES -->
+
+<style is:inline>
+  @font-face {
+    font-family: 'League Spartan';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/leaguespartan/v12/CSR54zpSlumSWj9CGVsoBZdeaNNUuOwkC2s.ttf) format('truetype');
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  :root {
+  --color-background: #aaf;
+  --color-primary: #2B3956;
+  --color-secondary: #96B154;
+  --color-tertiary: #006284;
+  --color-offset: #89DD82;
+  --color-text: #DEF0DE;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 300;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  transition: all 1s ease;
+}
+
+.dark {
+  --color-background: #2B3956;
+  --color-secondary: #f0e68c;
+  --color-offset: #1537f0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 2rem 0.5rem var(--color-offset);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-tertiary);
+  box-shadow: 0 0 2rem 0.5rem var(--color-offset);
+  max-width: 800px;
+}
+
+h1 {
+  font-size: 4rem;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: var(--color-secondary);
+  border-radius: 0.5rem;
+  animation: headliner 5s ease-in-out infinite;
+  drop-shadow: 1rem 1rem 1rem var(--color-offset);
+  box-shadow: 0 0 0.5rem 0.25rem var(--color-offset);
+}
+
+p {
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+img {
+  max-width: 50%;
+  border-radius: 0.5rem;
+  transition: all 1s ease;
+}
+
+.dark img {
+  filter: invert(1);
+}
+
+a {
+  font-size: 2.5rem;
+  text-decoration: none;
+  color: var(--color-secondary);
+  background-color: var(--color-primary);
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .hero {
+    margin: 1rem;
+  }
+
+  .card {
+    margin: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  p {
+    font-size: 1.5rem;
+  }
+
+  a {
+    font-size: 2rem;
+  }
+}
+
+@keyframes headliner {
+  0% {
+    background-color: var(--color-primary);
+    color: var(--color-offset);
+    box-shadow: 0 0 0.5rem 0.25rem var(--color-offset);
+    drop-shadow: 1rem 1rem 1rem var(--color-offset);
+  }
+  33% {
+    background-color: var(--color-secondary);
+    color: var(--color-tertiary);
+    box-shadow: 0 0 0.5rem 0.25rem var(--color-tertiary);
+    drop-shadow: 1rem 1rem 1rem var(--color-primary);
+    transform: scale(1.1);
+  }
+  66% {
+    background-color: var(--color-tertiary);
+    color: var(--color-secondary);
+    box-shadow: 0 0 0.5rem 0.25rem var(--color-primary);
+    drop-shadow: 1rem 1rem 1rem var(--color-secondary);
+  }
+  100% {
+    background-color: var(--color-primary);
+    color: var(--color-offset);
+    box-shadow: 0 0 0.5rem 0.25rem var(--color-secondary);
+    drop-shadow: 1rem 1rem 1rem var(--color-offset);
+  }
+}
+</style>
+
+<!-- MARKUP -->
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+  <main>
+    <slot />
+    <ThemeButton />
+  </main>
+  </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background-color: #F6F6F6;
-	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
-</style>
