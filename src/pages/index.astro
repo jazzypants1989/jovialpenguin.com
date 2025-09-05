@@ -7,6 +7,13 @@ import Layout from "../layouts/Layout.astro"
     <img src="/cover.png" alt="Jovial Penguin logo" />
     <h1>Jovial Penguin</h1>
   </div>
+  <form
+    onsubmit="window.dataLayer.push({ event: 'generate_lead', email: this.email.value })"
+  >
+    <label for="email">Subscribe to our newsletter:</label>
+    <input type="email" id="email" name="email" required />
+    <button type="submit">Subscribe</button>
+  </form>
   <article>
     <p class="card">
       Jovial Penguin is a small web development studio based in Vancouver,
